@@ -18,6 +18,8 @@
             <p>For more information about how to calculate your due date see this page</p>
     <input type="button" id = "CalInfoButton" data-week-number="" onclick="location.href='https://www.webmd.com/baby/interactive-pregnancy-tool-fetal-development';" value="WebMD Pregnancy Visual Timeline"/>
         <h3 id = "head-3">Your Results Will Show Here</h3>
+        <h4 id = "head-4"> Current Date goes here</h4>
+        <h5 id = "head=5"></h5>
     <script>
         "use strict";
         function calculateDueDate(e) {
@@ -30,28 +32,33 @@
             //var c = new Date(year, month, day + 280);
             //console.log(d, year, month, day, c);
             //return c;
-
             let dateLastMenses = document.getElementById("DateOfLastMenses");
             console.log(dateLastMenses.value);
-            let dueDate = moment(dateLastMenses.value, "YYYY-MM-DD").add(280, 'd').toDate();
+            let dueDate = moment(dateLastMenses.value, "YYYY-MM-DD").add(280, 'days').format('LL');
             console.log(dueDate);
-            document.getElementById('head-3').innerHTML = dueDate.toString();
+            let monthsUnt = moment(dueDate, 'LL').startOf('day').fromNow();
+            document.getElementById('head-3').innerHTML = 'Your due date is ' + dueDate.toString();
+            document.getElementById('head-4').innerHTML = 'You have ' + monthsUnt.toString() + ' of pregnancy left';
         }
 
-        function listenForButtonClick() {
+        function listenForButtonClick(s) {
             CalInfoButton.addEventListener('click', function(e){
                e.preventDefault();
-               location.href="https://something/" + e.target.dataset.weekNumber
+               location.href="NextSteps.html#" + e.target.dataset.weeksUnt1
             });
         }
 
         function listenForFormSubmission() {
             let dueDateCal = document.getElementById("DueDateCal");
             dueDateCal.addEventListener("submit", calculateDueDate);
-
+         //   let todaysDate = documment.getElementById("TodaysDate");
+          //  todaysDate.addEventListener("submit",calculateCurrentDate);
            // dueDateCal.addEventListener('submit', function(){
              //   document.getElementById('head-3').innerHTML = DateOfLastMenses ;
             //});
+
+
+
         }
         function recordFormSubmission(e) {
             e.preventDefault();
